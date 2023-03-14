@@ -9,7 +9,7 @@
 <script setup lang="ts">
 
 import {onMounted, ref} from 'vue'
-import {WebsocketMessage, WebsocketMessage_MessageData} from "@/proto/WebsocketMessages"
+import {WebsocketMessage, WebsocketMessage_MessageBody} from "@/proto/WebsocketMessages"
 
 const stringToUint8Array = (str: string) => {
   const arr = [];
@@ -20,15 +20,15 @@ const stringToUint8Array = (str: string) => {
 
   return new Uint8Array(arr)
 }
-let messageData: WebsocketMessage_MessageData = {
+let messageData: WebsocketMessage_MessageBody = {
   operationType: 0,
-  messageId: 123n,
-  messageData: stringToUint8Array("hello,i am clint"),
+  identify: 123n,
+  context: stringToUint8Array("hello,i am clint"),
 }
 let websocketRequest: WebsocketMessage = {
-  messageType: 1,
+  flag: 1,
   timestamp: 123456789n,
-  messageData: messageData,
+  body: messageData,
 };
 
 let bytes = WebsocketMessage.toBinary(websocketRequest);
@@ -46,6 +46,8 @@ const init = () => {
   ws.onerror = onError;
   ws.onopen = open;
   ws.onmessage = message;
+  setTimeout(() => {
+  }, 1000)
 }
 const open = () => {
   console.log("connect success")

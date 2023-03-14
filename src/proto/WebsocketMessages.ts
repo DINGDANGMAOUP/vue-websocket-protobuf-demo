@@ -16,9 +16,9 @@ import { MessageType } from "@protobuf-ts/runtime";
  */
 export interface WebsocketMessage {
     /**
-     * @generated from protobuf field: WebsocketRequestPackage.WebsocketMessage.MessageType messageType = 1;
+     * @generated from protobuf field: WebsocketRequestPackage.WebsocketMessage.MessageFlag flag = 1;
      */
-    messageType: WebsocketMessage_MessageType;
+    flag: WebsocketMessage_MessageFlag;
     /**
      * 时间戳
      *
@@ -26,90 +26,78 @@ export interface WebsocketMessage {
      */
     timestamp: bigint;
     /**
-     * @generated from protobuf field: WebsocketRequestPackage.WebsocketMessage.MessageData messageData = 3;
+     * @generated from protobuf field: WebsocketRequestPackage.WebsocketMessage.MessageBody body = 3;
      */
-    messageData?: WebsocketMessage_MessageData;
+    body?: WebsocketMessage_MessageBody;
 }
 /**
  * 消息体
  *
- * @generated from protobuf message WebsocketRequestPackage.WebsocketMessage.MessageData
+ * @generated from protobuf message WebsocketRequestPackage.WebsocketMessage.MessageBody
  */
-export interface WebsocketMessage_MessageData {
+export interface WebsocketMessage_MessageBody {
     /**
-     * @generated from protobuf field: WebsocketRequestPackage.WebsocketMessage.MessageData.OperationType operationType = 1;
+     * @generated from protobuf field: WebsocketRequestPackage.WebsocketMessage.MessageBody.OperationType operationType = 1;
      */
-    operationType: WebsocketMessage_MessageData_OperationType;
+    operationType: WebsocketMessage_MessageBody_OperationType;
     /**
-     * @generated from protobuf field: int64 messageId = 2;
+     * @generated from protobuf field: int64 identify = 2;
      */
-    messageId: bigint;
+    identify: bigint;
     /**
-     * @generated from protobuf field: bytes messageData = 3;
+     * @generated from protobuf field: bytes context = 3;
      */
-    messageData: Uint8Array;
+    context: Uint8Array;
 }
 /**
  * 操作类型
  *
- * @generated from protobuf enum WebsocketRequestPackage.WebsocketMessage.MessageData.OperationType
+ * @generated from protobuf enum WebsocketRequestPackage.WebsocketMessage.MessageBody.OperationType
  */
-export enum WebsocketMessage_MessageData_OperationType {
-    /**
-     * 未知
-     *
-     * @generated from protobuf enum value: UNKNOWN = 0;
-     */
-    UNKNOWN = 0,
+export enum WebsocketMessage_MessageBody_OperationType {
     /**
      * 心跳
      *
-     * @generated from protobuf enum value: HEARTBEAT = 1;
+     * @generated from protobuf enum value: HEARTBEAT = 0;
      */
-    HEARTBEAT = 1,
+    HEARTBEAT = 0,
     /**
      * openai
      *
-     * @generated from protobuf enum value: OPENAI = 2;
+     * @generated from protobuf enum value: OPENAI = 1;
      */
-    OPENAI = 2
+    OPENAI = 1
 }
 /**
- * 消息类型
+ * 消息来源
  *
- * @generated from protobuf enum WebsocketRequestPackage.WebsocketMessage.MessageType
+ * @generated from protobuf enum WebsocketRequestPackage.WebsocketMessage.MessageFlag
  */
-export enum WebsocketMessage_MessageType {
+export enum WebsocketMessage_MessageFlag {
     /**
-     * 未知
+     * web
      *
-     * @generated from protobuf enum value: UNKNOWN = 0;
+     * @generated from protobuf enum value: WEB = 0;
      */
-    UNKNOWN = 0,
+    WEB = 0,
     /**
-     * 请求
+     * 服务器
      *
-     * @generated from protobuf enum value: REQUEST = 1;
+     * @generated from protobuf enum value: SERVER = 1;
      */
-    REQUEST = 1,
-    /**
-     * 响应
-     *
-     * @generated from protobuf enum value: RESPONSE = 3;
-     */
-    RESPONSE = 3
+    SERVER = 1
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class WebsocketMessage$Type extends MessageType<WebsocketMessage> {
     constructor() {
         super("WebsocketRequestPackage.WebsocketMessage", [
-            { no: 1, name: "messageType", kind: "enum", T: () => ["WebsocketRequestPackage.WebsocketMessage.MessageType", WebsocketMessage_MessageType] },
+            { no: 1, name: "flag", kind: "enum", T: () => ["WebsocketRequestPackage.WebsocketMessage.MessageFlag", WebsocketMessage_MessageFlag] },
             { no: 2, name: "timestamp", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ },
-            { no: 3, name: "messageData", kind: "message", T: () => WebsocketMessage_MessageData }
+            { no: 3, name: "body", kind: "message", T: () => WebsocketMessage_MessageBody }
         ]);
     }
     create(value?: PartialMessage<WebsocketMessage>): WebsocketMessage {
-        const message = { messageType: 0, timestamp: 0n };
+        const message = { flag: 0, timestamp: 0n };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
             reflectionMergePartial<WebsocketMessage>(this, message, value);
@@ -120,14 +108,14 @@ class WebsocketMessage$Type extends MessageType<WebsocketMessage> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* WebsocketRequestPackage.WebsocketMessage.MessageType messageType */ 1:
-                    message.messageType = reader.int32();
+                case /* WebsocketRequestPackage.WebsocketMessage.MessageFlag flag */ 1:
+                    message.flag = reader.int32();
                     break;
                 case /* int64 timestamp */ 2:
                     message.timestamp = reader.int64().toBigInt();
                     break;
-                case /* WebsocketRequestPackage.WebsocketMessage.MessageData messageData */ 3:
-                    message.messageData = WebsocketMessage_MessageData.internalBinaryRead(reader, reader.uint32(), options, message.messageData);
+                case /* WebsocketRequestPackage.WebsocketMessage.MessageBody body */ 3:
+                    message.body = WebsocketMessage_MessageBody.internalBinaryRead(reader, reader.uint32(), options, message.body);
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -141,15 +129,15 @@ class WebsocketMessage$Type extends MessageType<WebsocketMessage> {
         return message;
     }
     internalBinaryWrite(message: WebsocketMessage, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* WebsocketRequestPackage.WebsocketMessage.MessageType messageType = 1; */
-        if (message.messageType !== 0)
-            writer.tag(1, WireType.Varint).int32(message.messageType);
+        /* WebsocketRequestPackage.WebsocketMessage.MessageFlag flag = 1; */
+        if (message.flag !== 0)
+            writer.tag(1, WireType.Varint).int32(message.flag);
         /* int64 timestamp = 2; */
         if (message.timestamp !== 0n)
             writer.tag(2, WireType.Varint).int64(message.timestamp);
-        /* WebsocketRequestPackage.WebsocketMessage.MessageData messageData = 3; */
-        if (message.messageData)
-            WebsocketMessage_MessageData.internalBinaryWrite(message.messageData, writer.tag(3, WireType.LengthDelimited).fork(), options).join();
+        /* WebsocketRequestPackage.WebsocketMessage.MessageBody body = 3; */
+        if (message.body)
+            WebsocketMessage_MessageBody.internalBinaryWrite(message.body, writer.tag(3, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -161,34 +149,34 @@ class WebsocketMessage$Type extends MessageType<WebsocketMessage> {
  */
 export const WebsocketMessage = new WebsocketMessage$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class WebsocketMessage_MessageData$Type extends MessageType<WebsocketMessage_MessageData> {
+class WebsocketMessage_MessageBody$Type extends MessageType<WebsocketMessage_MessageBody> {
     constructor() {
-        super("WebsocketRequestPackage.WebsocketMessage.MessageData", [
-            { no: 1, name: "operationType", kind: "enum", T: () => ["WebsocketRequestPackage.WebsocketMessage.MessageData.OperationType", WebsocketMessage_MessageData_OperationType] },
-            { no: 2, name: "messageId", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ },
-            { no: 3, name: "messageData", kind: "scalar", T: 12 /*ScalarType.BYTES*/ }
+        super("WebsocketRequestPackage.WebsocketMessage.MessageBody", [
+            { no: 1, name: "operationType", kind: "enum", T: () => ["WebsocketRequestPackage.WebsocketMessage.MessageBody.OperationType", WebsocketMessage_MessageBody_OperationType] },
+            { no: 2, name: "identify", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ },
+            { no: 3, name: "context", kind: "scalar", T: 12 /*ScalarType.BYTES*/ }
         ]);
     }
-    create(value?: PartialMessage<WebsocketMessage_MessageData>): WebsocketMessage_MessageData {
-        const message = { operationType: 0, messageId: 0n, messageData: new Uint8Array(0) };
+    create(value?: PartialMessage<WebsocketMessage_MessageBody>): WebsocketMessage_MessageBody {
+        const message = { operationType: 0, identify: 0n, context: new Uint8Array(0) };
         globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
         if (value !== undefined)
-            reflectionMergePartial<WebsocketMessage_MessageData>(this, message, value);
+            reflectionMergePartial<WebsocketMessage_MessageBody>(this, message, value);
         return message;
     }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: WebsocketMessage_MessageData): WebsocketMessage_MessageData {
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: WebsocketMessage_MessageBody): WebsocketMessage_MessageBody {
         let message = target ?? this.create(), end = reader.pos + length;
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* WebsocketRequestPackage.WebsocketMessage.MessageData.OperationType operationType */ 1:
+                case /* WebsocketRequestPackage.WebsocketMessage.MessageBody.OperationType operationType */ 1:
                     message.operationType = reader.int32();
                     break;
-                case /* int64 messageId */ 2:
-                    message.messageId = reader.int64().toBigInt();
+                case /* int64 identify */ 2:
+                    message.identify = reader.int64().toBigInt();
                     break;
-                case /* bytes messageData */ 3:
-                    message.messageData = reader.bytes();
+                case /* bytes context */ 3:
+                    message.context = reader.bytes();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -201,16 +189,16 @@ class WebsocketMessage_MessageData$Type extends MessageType<WebsocketMessage_Mes
         }
         return message;
     }
-    internalBinaryWrite(message: WebsocketMessage_MessageData, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* WebsocketRequestPackage.WebsocketMessage.MessageData.OperationType operationType = 1; */
+    internalBinaryWrite(message: WebsocketMessage_MessageBody, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* WebsocketRequestPackage.WebsocketMessage.MessageBody.OperationType operationType = 1; */
         if (message.operationType !== 0)
             writer.tag(1, WireType.Varint).int32(message.operationType);
-        /* int64 messageId = 2; */
-        if (message.messageId !== 0n)
-            writer.tag(2, WireType.Varint).int64(message.messageId);
-        /* bytes messageData = 3; */
-        if (message.messageData.length)
-            writer.tag(3, WireType.LengthDelimited).bytes(message.messageData);
+        /* int64 identify = 2; */
+        if (message.identify !== 0n)
+            writer.tag(2, WireType.Varint).int64(message.identify);
+        /* bytes context = 3; */
+        if (message.context.length)
+            writer.tag(3, WireType.LengthDelimited).bytes(message.context);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -218,6 +206,6 @@ class WebsocketMessage_MessageData$Type extends MessageType<WebsocketMessage_Mes
     }
 }
 /**
- * @generated MessageType for protobuf message WebsocketRequestPackage.WebsocketMessage.MessageData
+ * @generated MessageType for protobuf message WebsocketRequestPackage.WebsocketMessage.MessageBody
  */
-export const WebsocketMessage_MessageData = new WebsocketMessage_MessageData$Type();
+export const WebsocketMessage_MessageBody = new WebsocketMessage_MessageBody$Type();

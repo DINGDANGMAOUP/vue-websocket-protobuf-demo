@@ -1,35 +1,32 @@
 syntax = "proto3"; // 使用proto3语法
 package WebsocketRequestPackage;
 message WebsocketMessage{
-  //消息类型
-  enum MessageType{
-    //未知
-    UNKNOWN = 0;
-    //请求
-    REQUEST = 1;
-    //响应
-    RESPONSE = 3;
+  //消息来源
+  enum MessageFlag{
+    //web
+    WEB = 0;
+    //服务器
+    SERVER = 1;
   }
-  MessageType messageType = 1;
+  MessageFlag flag = 1;
   //时间戳
   int64 timestamp = 2;
   //消息体
-  message MessageData{
+  message MessageBody{
 
     //操作类型
     enum OperationType{
-      //未知
-      UNKNOWN = 0;
+
       //心跳
-      HEARTBEAT = 1;
+      HEARTBEAT = 0;
       //openai
-      OPENAI = 2;
+      OPENAI = 1;
     }
     OperationType operationType = 1;
 
-    int64 messageId = 2;
-    bytes messageData = 3;
+    int64 identify = 2;
+    bytes context = 3;
   }
-  MessageData messageData = 3;
+  MessageBody body = 3;
 
 }
