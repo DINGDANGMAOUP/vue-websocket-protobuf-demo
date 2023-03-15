@@ -1,5 +1,5 @@
 syntax = "proto3"; // 使用proto3语法
-package WebsocketRequestPackage;
+package WebsocketMessagePackage;
 message WebsocketMessage{
   //消息来源
   enum MessageFlag{

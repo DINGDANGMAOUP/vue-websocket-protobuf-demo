@@ -9,7 +9,12 @@
 <script setup lang="ts">
 
 import {onMounted, ref} from 'vue'
-import {WebsocketMessage, WebsocketMessage_MessageBody} from "@/proto/WebsocketMessages"
+import {
+  WebsocketMessage,
+  WebsocketMessage_MessageBody as MessageData,
+  WebsocketMessage_MessageBody_OperationType as OperationType,
+  WebsocketMessage_MessageFlag as MessageFlag
+} from "@/proto/WebsocketMessages"
 
 const stringToUint8Array = (str: string) => {
   const arr = [];
@@ -20,19 +25,32 @@ const stringToUint8Array = (str: string) => {
 
   return new Uint8Array(arr)
 }
-let messageData: WebsocketMessage_MessageBody = {
-  operationType: 0,
+let messageData: MessageData = {
+  operationType: OperationType.OPENAI,
   identify: 123n,
   context: stringToUint8Array("hello,i am clint"),
 }
 let websocketRequest: WebsocketMessage = {
-  flag: 1,
+  flag: MessageFlag.WEB,
   timestamp: 123456789n,
   body: messageData,
 };
 
+let heartbeatData: MessageData = {
+  operationType: OperationType.HEARTBEAT,
+  identify: 123n,
+  context: stringToUint8Array("hello,i am clint"),
+}
+
+let heartbeatRequest: WebsocketMessage = {
+  flag: MessageFlag.WEB,
+  timestamp: 123456789n,
+  body: heartbeatData,
+};
+
 let bytes = WebsocketMessage.toBinary(websocketRequest);
-// pete = Person.fromBinary(bytes);
+
+let heartbeatBytes = WebsocketMessage.toBinary(heartbeatRequest);
 defineProps<{ title: string }>()
 
 
@@ -46,14 +64,14 @@ const init = () => {
   ws.onerror = onError;
   ws.onopen = open;
   ws.onmessage = message;
-  setTimeout(() => {
-  }, 1000)
+
 }
 const open = () => {
   console.log("connect success")
 }
 const message = (ev: MessageEvent) => {
-  console.log("收到消息,{}", WebsocketMessage.fromBinary(new Uint8Array(ev.data)))
+  WebsocketMessage.fromBinary(new Uint8Array(ev.data))
+  console.log("收到消息,{}" )
 }
 
 const close = () => {  //关闭
