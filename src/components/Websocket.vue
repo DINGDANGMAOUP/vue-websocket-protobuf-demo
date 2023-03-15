@@ -3,7 +3,7 @@
   <div>
     hello
   </div>
-  <button @click="sendMessage">发送消息</button>
+  <button @click="()=>sendMessage(bytes)">发送消息</button>
 </template>
 
 <script setup lang="ts">
@@ -36,21 +36,8 @@ let websocketRequest: WebsocketMessage = {
   body: messageData,
 };
 
-let heartbeatData: MessageData = {
-  operationType: OperationType.HEARTBEAT,
-  identify: 123n,
-  context: stringToUint8Array("hello,i am clint"),
-}
+let bytes: Uint8Array = WebsocketMessage.toBinary(websocketRequest);
 
-let heartbeatRequest: WebsocketMessage = {
-  flag: MessageFlag.WEB,
-  timestamp: 123456789n,
-  body: heartbeatData,
-};
-
-let bytes = WebsocketMessage.toBinary(websocketRequest);
-
-let heartbeatBytes = WebsocketMessage.toBinary(heartbeatRequest);
 defineProps<{ title: string }>()
 
 
@@ -70,8 +57,8 @@ const open = () => {
   console.log("connect success")
 }
 const message = (ev: MessageEvent) => {
-  WebsocketMessage.fromBinary(new Uint8Array(ev.data))
-  console.log("收到消息,{}" )
+  const msg = WebsocketMessage.fromBinary(new Uint8Array(ev.data))
+  console.log("收到消息", msg)
 }
 
 const close = () => {  //关闭
@@ -81,8 +68,8 @@ const close = () => {  //关闭
 const onError = () => {
   console.log('连接异常');
 }
-const sendMessage = () => {
-  ws.send(bytes);
+const sendMessage = (msg: Uint8Array) => {
+  ws.send(msg.buffer);
 }
 onMounted(() => {
   init()
