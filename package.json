@@ -8,7 +8,7 @@
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
     "proto:json": "pbjs -t json src/proto/*.proto > src/proto/proto.json",
-    "proto": "pbjs -t json-module -w commonjs -o src/proto/proto.js  src/proto/*.proto && pbts -o src/proto/proto.d.ts src/proto/proto.js",
+    "proto:js": "pbjs -t json-module -w commonjs -o src/proto/proto.js  src/proto/*.proto",
     "proto:ts": "protoc --ts_out src/proto --proto_path src/proto  src/proto/*.proto"
   },
   "dependencies": {
