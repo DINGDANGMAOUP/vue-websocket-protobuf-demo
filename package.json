@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@protobuf-ts/plugin": "^2.8.2",
-    "protobufjs": "^7.2.2",
+    "protobufjs": "^7.2.4",
     "vue": "^3.2.45"
   },
   "devDependencies": {
